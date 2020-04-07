@@ -1,12 +1,12 @@
 // index.js
-const watson = require('./watson')
-const youtube = require('./youtube')
+// const watson = require('./watson')
+// const youtube = require('./youtube')
 const path = require('path')
 const { program } = require('commander')
 const pjson = require('./package.json')
 
-program.version(pjson.version, '-v, --verssion', 'output the current version')
-program.options('-d, --debug', 'console output debug statements')
+program.version(pjson.version, '-v, --version', 'output the current version')
+program.option('-d, --debug', 'console output debug statements')
 
 program.parse(process.argv)
 const flags = process.argv.slice(2)
