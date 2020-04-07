@@ -1,10 +1,14 @@
 {
   "name": "transcribe-youtube",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./transcribe-youtube/fetch.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "bin": {
+    "transcribe-yt": "./bin/index.js"
+  },
+  "preferGlobal": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/endqwerty/transcribe-youtube.git"
@@ -18,7 +22,9 @@
   "description": "",
   "dependencies": {
     "commander": "^5.0.0",
+    "dotenv": "^8.2.0",
     "ibm-watson": "^5.4.0",
+    "simple-node-logger": "^18.12.24",
     "youtube-dl": "^3.0.2"
   }
 }
