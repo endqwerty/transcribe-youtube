@@ -4,6 +4,7 @@
   "main": "./transcribe-youtube/fetch.js",
   "scripts": {
     "fetch": "node transcribe-youtube/fetch.js",
+    "transcribe": "node transcribe-youtube/transcribe.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "bin": {
@@ -23,10 +24,12 @@
   "description": "",
   "dependencies": {
     "@google-cloud/speech": "^3.6.0",
+    "cli-progress": "^3.8.2",
     "commander": "^5.1.0",
     "dotenv": "^8.2.0",
     "simple-node-logger": "^18.12.24",
-    "youtube-dl": "^3.0.2"
+    "youtube-dl": "^3.0.2",
+    "ytdl-core": "^2.1.2"
   },
   "devDependencies": {
     "eslint": "^7.0.0",

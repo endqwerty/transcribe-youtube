@@ -1,19 +1,39 @@
-import { createWriteStream } from 'fs'
-import youtubedl from 'youtube-dl'
+const fs = require('fs');
+const ytdl = require('ytdl-core');
+const cliProgress = require('cli-progress');
 
-const video = youtubedl(
-  'https://www.youtube.com/watch?v=EKbT0pQdQ2o',
-  // Optional arguments passed to youtube-dl.
-  ['--format=140'],
-  // Additional options can be given for calling `child_process.execFile()`.
-  { cwd: __dirname }
-)
+const video_url = 'https://www.youtube.com/watch?v=EKbT0pQdQ2o'
 
-// Will be called when the download starts.
-video.on('info', function (info) {
-  console.log('Download started')
-  console.log('filename: ' + info._filename)
-  console.log('size: ' + info.size)
-})
+const runFetch = async function () {
+  const progressBarFormat = 'progress [{bar}] {percentage}% | {value}/{total} chunks'
 
-video.pipe(createWriteStream('audio.m4a'))
+  const progressBar = new cliProgress.SingleBar({
+    stopOnComplete: true,
+    format: progressBarFormat
+  }, cliProgress.Presets.shades_classic);
+
+  const videoStream = ytdl(video_url,
+    {
+      quality: 'highestaudio',
+      filter: format => format.container === 'webm'
+    })
+  let video_id = ''
+  await ytdl.getInfo(video_url, (err, info) => {
+    if (err) throw err;
+    // Strip out 'https://www.youtube.com/watch?v='
+    video_id = info.video_url.substring(32)
+    console.log(`Video ID: ${video_id}`)
+  });
+  let progressBarStarted = false
+  videoStream.on("progress", (chuckLength, totalBytesDownloaded, totalBytes) => {
+    if (!progressBarStarted) {
+      progressBar.start(totalBytes, totalBytesDownloaded);
+      progressBarStarted = true
+    } else {
+      progressBar.update(totalBytesDownloaded);
+    }
+  });
+
+  await videoStream.pipe(fs.createWriteStream(`${video_id}.webm`))
+}
+runFetch()
