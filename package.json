@@ -21,9 +21,9 @@
   "homepage": "https://github.com/endqwerty/transcribe-youtube#readme",
   "description": "",
   "dependencies": {
+    "@google-cloud/speech": "^3.6.0",
     "commander": "^5.0.0",
     "dotenv": "^8.2.0",
-    "ibm-watson": "^5.4.0",
     "simple-node-logger": "^18.12.24",
     "youtube-dl": "^3.0.2"
   }
