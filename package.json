@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "main": "./transcribe-youtube/fetch.js",
   "scripts": {
+    "start": "node transcribe-youtube",
     "fetch": "node transcribe-youtube/fetch.js",
     "transcribe": "node transcribe-youtube/transcribe.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -24,9 +25,12 @@
   "description": "",
   "dependencies": {
     "@google-cloud/speech": "^3.6.0",
+    "@google-cloud/storage": "^4.7.0",
     "cli-progress": "^3.8.2",
+    "cli-spinner": "^0.2.10",
     "commander": "^5.1.0",
     "dotenv": "^8.2.0",
+    "ffmpeg": "0.0.4",
     "simple-node-logger": "^18.12.24",
     "youtube-dl": "^3.0.2",
     "ytdl-core": "^2.1.2"

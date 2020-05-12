@@ -1,45 +1,61 @@
 require('dotenv').config()
 
+const Spinner = require('cli-spinner').Spinner;
 // Imports the Google Cloud client library
-const speech = require('@google-cloud/speech');
+const speech = require('@google-cloud/speech').v1p1beta1;
 const fs = require('fs');
 
-const runTranscribe = async function () {
+class Transcribe {
+  constructor() {
+    // Creates a client
+    this.speechClient = new speech.SpeechClient();
+    this.spinner = new Spinner('processing.. %s');
+    this.spinner.setSpinnerString('|/-\\');
+  }
 
-  // Creates a client
-  const client = new speech.SpeechClient();
+  async runTranscribe(filename) {
+    return new Promise(async (res, rej) => {
+      // Add config settings
+      // const filename = 'audio.m4a';
+      // const encoding = 'OGG_OPUS';
+      const encoding = 'FLAC';
+      const sampleRateHertz = 48000;
+      const languageCode = 'cmn-Hant-TW';
+      // const languageCode = 'en-US';
 
-  // Add config settings
-  const filename = 'audio.m4a';
-  const encoding = 'LINEAR16';
-  const sampleRateHertz = 4410;
-  const languageCode = 'zh-tw';
+      const config = {
+        enableAutomaticPunctuation: true,
+        encoding: encoding,
+        sampleRateHertz: sampleRateHertz,
+        languageCode: languageCode,
+      };
+      const audio = {
+        content: fs.readFileSync(filename).toString('base64'),
+      };
 
-  const config = {
-    encoding: encoding,
-    sampleRateHertz: sampleRateHertz,
-    languageCode: languageCode,
-  };
-  const audio = {
-    content: fs.readFileSync(filename).toString('base64'),
-  };
+      const request = {
+        config: config,
+        audio: audio,
+      };
 
-  const request = {
-    config: config,
-    audio: audio,
-  };
+      // Detects speech in the audio file. This creates a recognition job that you
+      // can wait for now, or get its result later.
+      this.spinner.start()
+      const [operation] = await this.speechClient.longRunningRecognize(request);
 
-  // Detects speech in the audio file. This creates a recognition job that you
-  // can wait for now, or get its result later.
-  const [operation] = await client.longRunningRecognize(request);
+      // Get a Promise representation of the final result of the job
+      const [response] = await operation.promise();
+      this.spinner.stop(true)
+      const transcription = response.results
+        .map(result => result.alternatives[0].transcript)
+        .join('\n');
+      console.log(`Transcription: ${transcription}`);
+      fs.writeFile('transcription.txt', transcription, (err)=> {
+        err ? rej(err) : res()
+      })
+    })
+  }
 
-  // Get a Promise representation of the final result of the job
-  const [response] = await operation.promise();
-  const transcription = response.results
-    .map(result => result.alternatives[0].transcript)
-    .join('\n');
-  await console.log(`Transcription: ${transcription}`);
-  await fs.writeFile('transcription.txt', transcription)
 }
 
-runTranscribe()
+module.exports = { Transcribe }
