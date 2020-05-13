@@ -1,10 +1,18 @@
-const ffmpeg = require('ffmpeg')
+const Ffmpeg = require('ffmpeg')
 const Spinner = require('cli-spinner').Spinner
 const fs = require('fs')
-
+/**
+ *
+ */
 class Convert {
+  /**
+   *
+   */
   constructor() {}
-
+  /**
+   *
+   * @param {String} videoId
+   */
   async runConvert(videoId) {
     return new Promise((res, rej) => {
       const spinner = new Spinner('converting video.. %s')
@@ -12,7 +20,7 @@ class Convert {
       spinner.start()
       fs.unlink(`${videoId}.flac`, (err) => {})
       try {
-        const videoProcess = new ffmpeg(`${videoId}.webm`)
+        const videoProcess = new Ffmpeg(`${videoId}.webm`)
         videoProcess.then(
           (video) => {
             // video.setAudioCodec('flac')

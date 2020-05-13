@@ -5,12 +5,23 @@ const Spinner = require('cli-spinner').Spinner
 const speech = require('@google-cloud/speech').v1p1beta1
 const fs = require('fs')
 
+/**
+ *
+ */
 class Transcribe {
+  /**
+   *
+   */
   constructor() {
     // Creates a client
     this.speechClient = new speech.SpeechClient()
   }
-
+  /**
+   *
+   * @param {String} videoId
+   * @param {Boolean} useURI
+   * @param {String} videoTitle
+   */
   async runTranscribe(videoId, useURI, videoTitle) {
     const encoding = 'FLAC'
     const sampleRateHertz = 16000

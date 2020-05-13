@@ -2,9 +2,13 @@ const fs = require('fs')
 const ytdl = require('ytdl-core')
 const cliProgress = require('cli-progress')
 
-// const video_url = 'https://www.youtube.com/watch?v=EKbT0pQdQ2o'
-
+/**
+ *
+ */
 class Fetch {
+  /**
+   *
+   */
   constructor() {
     this.progressBarFormat =
       'progress [{bar}] {percentage}% | {value}/{total} chunks'
@@ -17,17 +21,21 @@ class Fetch {
     )
   }
 
+  /**
+   *
+   * @param {String} videoId
+   */
   async runFetch(videoId) {
     return new Promise(async (res, rej) => {
       let videoTitle = ''
-      const video_url = `https://www.youtube.com/watch?v=${videoId}`
+      const videoURL = `https://www.youtube.com/watch?v=${videoId}`
       // https://www.youtube.com/watch?v=ZvRJUVax4rc
-      const videoStream = ytdl(video_url, {
+      const videoStream = ytdl(videoURL, {
         quality: 'highestaudio',
         filter: (format) => format.container === 'webm',
       })
 
-      ytdl.getBasicInfo(video_url, (err, info) => {
+      ytdl.getBasicInfo(videoURL, (err, info) => {
         if (err) rej(err)
         videoTitle = info.title
       })

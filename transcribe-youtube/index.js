@@ -15,6 +15,10 @@ const convert = new Convert()
 const upload = new Upload()
 const transcribe = new Transcribe()
 
+/**
+ *
+ * @param {String} videoId
+ */
 async function run(videoId) {
   const videoTitle = await fetch.runFetch(videoId)
   await convert.runConvert(videoId)
@@ -26,6 +30,10 @@ async function run(videoId) {
     })
 }
 
+/**
+ *
+ * @param {Array} videoIds
+ */
 async function runMultiple(videoIds) {
   for (const videoId of videoIds) {
     await run(videoId)

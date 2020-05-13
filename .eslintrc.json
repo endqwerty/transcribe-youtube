@@ -17,7 +17,6 @@
         "sourceType": "module"
     },
     "rules": {
-        "require-jsdoc": "off",
         "prettier/prettier": "error"
     }
 }
