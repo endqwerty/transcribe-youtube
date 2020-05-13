@@ -11,6 +11,10 @@
       "skipFiles": [
         "<node_internals>/**"
       ],
+      "args": [
+        "ooroveVpMIA",
+        "RDz3k3nhjss"
+      ],
       "program": "${workspaceFolder}/transcribe-youtube/index.js"
     }
   ]

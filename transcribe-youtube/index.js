@@ -2,17 +2,37 @@ const Fetch = require('./fetch').Fetch
 const Upload = require('./upload').Upload
 const Convert = require('./convert').Convert
 const Transcribe = require('./transcribe').Transcribe
+const commandLineArgs = require('command-line-args')
 
-// upload.uploadFile('EKbT0pQdQ2o.webm', 'endqwerty-yt_transcribe').catch(console.error);
-const upload = new Upload()
+const optionDefinitions = [
+  { name: 'verbose', alias: 'v', type: Boolean },
+  { name: 'videoId', type: String, multiple: true, defaultOption: true }
+]
+const options = commandLineArgs(optionDefinitions)
+
 const fetch = new Fetch()
-const transcribe = new Transcribe()
 const convert = new Convert()
+const upload = new Upload()
+const transcribe = new Transcribe()
+
 async function run(videoId) {
-  // await fetch.runFetch(`https://www.youtube.com/watch?v=${videoId}`)
-  await fetch.runFetch()
-  await convert.runConvert(`${videoId}`)
-  await transcribe.runTranscribe(`${videoId}.flac`)
+  await fetch.runFetch(videoId)
+  await convert.runConvert(videoId)
+  await upload.runUpload(videoId, 'endqwerty-yt_transcribe')
+  transcribe.runTranscribe(videoId, true).then(
+    console.log(`Transcribe complete: ${videoId}`)
+  )
 }
 
-run('EKbT0pQdQ2o2')
+async function runMultiple(videoIds) {
+  for (const videoId of videoIds) {
+    await run(videoId)
+  }
+}
+
+if (options.videoId.length == 1) {
+  run(options.videoId[0])
+} else {
+  runMultiple(options.videoId)
+}
+

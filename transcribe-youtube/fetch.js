@@ -13,20 +13,16 @@ class Fetch {
     }, cliProgress.Presets.shades_classic);
   }
 
-  async runFetch(video_url) {
+  async runFetch(videoId) {
     return new Promise(async (res, rej) => {
+      const video_url = `https://www.youtube.com/watch?v=${videoId}`
+      //https://www.youtube.com/watch?v=ZvRJUVax4rc
       const videoStream = ytdl(video_url,
         {
           quality: 'highestaudio',
           filter: format => format.container === 'webm'
         })
-      let video_id = ''
-      await ytdl.getInfo(video_url, (err, info) => {
-        if (err) throw err;
-        // Strip out 'https://www.youtube.com/watch?v='
-        video_id = info.video_url.substring(32)
-        console.log(`Video ID: ${video_id}`)
-      });
+
       let progressBarStarted = false
       videoStream.on("progress", (chuckLength, totalBytesDownloaded, totalBytes) => {
         if (!progressBarStarted) {
@@ -36,12 +32,14 @@ class Fetch {
           this.progressBar.update(totalBytesDownloaded);
         }
       });
-
-      videoStream.pipe(fs.createWriteStream(`${video_id}.webm`))
-
-      videoStream.on('close', () => {
+      videoStream.on("end", () => {
         res()
       })
+      videoStream.pipe(fs.createWriteStream(`${videoId}.webm`)).on('error', (err) => {
+        console.error(err.message);
+        rej(err)
+      });
+
     })
   }
 
