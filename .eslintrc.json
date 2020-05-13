@@ -5,7 +5,8 @@
     },
     "extends": [
         "google",
-        "prettier"
+        "prettier",
+        "plugin:prettier/recommended"
     ],
     "globals": {
         "Atomics": "readonly",
@@ -16,6 +17,7 @@
         "sourceType": "module"
     },
     "rules": {
-      "prettier/prettier": "error"
+        "require-jsdoc": "off",
+        "prettier/prettier": "error"
     }
 }

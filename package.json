@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./transcribe-youtube/fetch.js",
   "scripts": {
-    "start": "node transcribe-youtube jMhZPL1Upus jzB7aNdaSQM 87-qXlKGu84",
+    "start": "node transcribe-youtube Bu_bActpjQM x5JjmfcgSTw 1l17KIYQNU8",
     "fetch": "node transcribe-youtube/fetch.js",
     "transcribe": "node transcribe-youtube/transcribe.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -39,6 +39,7 @@
   "devDependencies": {
     "eslint": "^7.0.0",
     "eslint-config-google": "^0.14.0",
+    "eslint-config-prettier": "^6.11.0",
     "eslint-plugin-prettier": "^3.1.3",
     "prettier": "^2.0.5",
     "prettier-eslint": "^9.0.1"
