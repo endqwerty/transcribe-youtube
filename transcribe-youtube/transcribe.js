@@ -46,7 +46,7 @@ class Transcribe {
       const transcription = response.results
         .map(result => result.alternatives[0].transcript)
         .join('\n');
-      fs.writeFile(`${videoId}.txt`, transcription, (err) => {
+      fs.writeFile(`transcripts/${videoId}.txt`, transcription, (err) => {
         err ? rej(err) : res()
       })
     })

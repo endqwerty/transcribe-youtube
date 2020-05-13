@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "./transcribe-youtube/fetch.js",
   "scripts": {
-    "start": "node transcribe-youtube ooroveVpMIA RDz3k3nhjss shufaLT4xUg 3iHJ2AET02k",
+    "start": "node transcribe-youtube jMhZPL1Upus jzB7aNdaSQM 87-qXlKGu84",
     "fetch": "node transcribe-youtube/fetch.js",
     "transcribe": "node transcribe-youtube/transcribe.js",
     "test": "echo \"Error: no test specified\" && exit 1"
